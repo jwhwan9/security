@@ -1,0 +1,354 @@
+﻿head,content
+TA0009 Collection,"收集 - TA0009
+
+描述
+
+攻擊者試圖收集對其目標有用的數據。收集包括攻擊者可能用來收集信息的技術以及與實現攻擊者目標相關的信息來源。通常，在收集數據後的下一個目標是竊取（竊取）數據。常見的目標來源包括各種驅動器類型、瀏覽器、音頻、視頻和電子郵件。常見的收集方法包括捕獲屏幕截圖和鍵盤輸入。
+
+技術
+
+01中間人攻擊 (Adversary-in-the-Middle)
+02歸檔收集的數據 (Archive Collected Data)
+03音頻捕獲 (Audio Capture)
+04自動化收集 (Automated Collection)
+05瀏覽器會話劫持 (Browser Session Hijacking)
+06剪貼板數據 (Clipboard Data)
+07雲存儲對象中的數據 (Data from Cloud Storage Object)
+08配置存儲庫中的數據 (Data from Configuration Repository)
+09信息存儲庫中的數據 (Data from Information Repositories)
+10本地系統中的數據 (Data from Local System)
+11網絡共享驅動器中的數據 (Data from Network Shared Drive)
+12可移動媒體中的數據 (Data from Removable Media)
+13數據分階段 (Data Staged)
+14電子郵件收集 (Email Collection)
+15輸入捕獲 (Input Capture)
+16屏幕捕獲 (Screen Capture)
+17視頻捕獲 (Video Capture)"
+TA0011 Command and Control,"命令與控制 - TA0011
+
+描述
+
+攻擊者試圖與受感染的系統通信以控制它們。命令與控制包括攻擊者可能用來與受害者網絡中受其控制的系統通信的技術。攻擊者通常會嘗試模仿正常的、預期的流量以避免檢測。攻擊者有很多方法可以建立命令與控制，其隱身程度取決於受害者網絡的結構和防禦。
+
+技術
+
+01應用層協議 (Application Layer Protocol)
+02可移動媒體通信 (Communication Through Removable Media)
+03數據編碼 (Data Encoding)
+04數據混淆 (Data Obfuscation)
+05動態解析 (Dynamic Resolution)
+06加密通道 (Encrypted Channel)
+07備用通道 (Fallback Channels)
+08輸入工具轉移 (Ingress Tool Transfer)
+09多階段通道 (Multi-Stage Channels)
+10非應用層協議 (Non-Application Layer Protocol)
+11非標準端口 (Non-Standard Port)
+12協議隧道 (Protocol Tunneling)
+13代理 (Proxy)
+14遠程訪問軟件 (Remote Access Software)
+15流量信號 (Traffic Signaling)
+16網絡服務 (Web Service)
+17內容注入 (Content Injection)
+18隱藏基礎設施 (Hide Infrastructure)"
+TA0006 Credential Access,"憑據訪問 - TA0006
+
+描述
+
+攻擊者試圖竊取帳戶名稱和密碼。憑據訪問包括竊取帳戶名稱和密碼等憑據的技術。用於獲取憑據的技術包括鍵盤記錄或憑據轉儲。使用合法憑據可以讓攻擊者訪問系統，使其更難被檢測到，並提供機會創建更多帳戶以幫助實現其目標。
+
+技術
+
+01中間人攻擊 (Adversary-in-the-Middle)
+02暴力破解 (Brute Force)
+03密碼存儲庫中的憑據 (Credentials from Password Stores)
+04用於憑據訪問的利用 (Exploitation for Credential Access)
+05強制身份驗證 (Forced Authentication)
+06偽造 Web 憑據 (Forge Web Credentials)
+07輸入捕獲 (Input Capture)
+08修改身份驗證過程 (Modify Authentication Process)
+09網絡嗅探 (Network Sniffing)
+10操作系統憑據轉儲 (OS Credential Dumping)
+11竊取應用程序訪問令牌 (Steal Application Access Token)
+12竊取或偽造 Kerberos 票證 (Steal or Forge Kerberos Tickets)
+13竊取 Web 會話 Cookie (Steal Web Session Cookie)
+14雙因素身份驗證攔截 (Two-Factor Authentication Interception)
+15不安全的憑據 (Unsecured Credentials)
+16多因素身份驗證請求生成 (Multi-Factor Authentication Request Generation)
+17竊取或偽造身份驗證證書 (Steal or Forge Authentication Certificates)"
+TA0005 Defense Evasion,"防禦規避 - TA0005
+
+描述
+
+攻擊者試圖避免被檢測到。防禦規避包括攻擊者用來在整個入侵過程中避免檢測的技術。用於防禦規避的技術包括卸載/禁用安全軟件或混淆/加密數據和腳本。攻擊者還利用和濫用可信過程來隱藏和偽裝其惡意軟件。其他策略的技術在此處交叉列出，因為這些技術包括破壞防禦的附加好處。
+
+技術
+
+01濫用提升控制機制 (Abuse Elevation Control Mechanism)
+02訪問令牌操作 (Access Token Manipulation)
+03位元圖作業 (BITS Jobs)
+04在主機上構建映像 (Build Image on Host)
+05反混淆-解碼文件或信息 (Deobfuscate-Decode Files or Information)
+06部署容器 (Deploy Container)
+07直接卷訪問 (Direct Volume Access)
+08域策略修改 (Domain Policy Modification)
+09執行護欄 (Execution Guardrails)
+10用於防禦規避的利用 (Exploitation for Defense Evasion)
+11文件和目錄權限修改 (File and Directory Permissions Modification)
+12隱藏工件 (Hide Artifacts)
+13劫持執行流程 (Hijack Execution Flow)
+14損害防禦 (Impair Defenses)
+15主機上指標移除 (Indicator Removal on Host)
+16間接命令執行 (Indirect Command Execution)
+17偽裝 (Masquerading)
+18修改身份驗證過程 (Modify Authentication Process)
+19修改雲計算基礎設施 (Modify Cloud Compute Infrastructure)
+20修改註冊表 (Modify Registry)
+21修改系統映像 (Modify System Image)
+22網絡邊界橋接 (Network Boundary Bridging)
+23混淆的文件或信息 (Obfuscated Files or Information)
+24預操作系統啟動 (Pre-OS Boot)
+25進程注入 (Process Injection)
+26反射代碼加載 (Reflective Code Loading)
+27惡意域控制器 (Rogue Domain Controller)
+28Rootkit
+29簽名二進制代理執行 (Signed Binary Proxy Execution)
+30簽名腳本代理執行 (Signed Script Proxy Execution)
+31顛覆信任控制 (Subvert Trust Controls)
+32模板注入 (Template Injection)
+33流量信號 (Traffic Signaling)
+34可信開發者工具代理執行 (Trusted Developer Utilities Proxy Execution)
+35未使用-不受支持的雲區域 (Unused-Unsupported Cloud Regions)
+36使用替代身份驗證材料 (Use Alternate Authentication Material)
+37有效帳戶 (Valid Accounts)
+38虛擬化-沙箱規避 (Virtualization-Sandbox Evasion)
+39削弱加密 (Weaken Encryption)
+40XSL 腳本處理 (XSL Script Processing)
+41調試器規避 (Debugger Evasion)
+42模仿 (Impersonation)
+43Plist 文件修改 (Plist File Modification)"
+TA0007 Discovery,"探索 - TA0007
+
+描述
+
+攻擊者試圖了解您的環境。探索包括攻擊者可能用來獲取有關系統和內部網絡知識的技術。這些技術幫助攻擊者觀察環境並定位自己，然後決定如何行動。他們還允許攻擊者探索他們可以控制的東西以及他們進入點周圍的東西，以便發現它如何有利於他們目前的目標。本機操作系統工具通常用於此後入侵信息收集目標。
+
+技術
+
+01帳戶發現 (Account Discovery)
+02應用程序窗口發現 (Application Window Discovery)
+03瀏覽器書籤發現 (Browser Bookmark Discovery)
+04雲基礎設施發現 (Cloud Infrastructure Discovery
+)05雲服務儀表板 (Cloud Service Dashboard)
+06雲服務發現 (Cloud Service Discovery)
+07雲存儲對象發現 (Cloud Storage Object Discovery)
+08容器和資源發現 (Container and Resource Discovery)
+09域信任發現 (Domain Trust Discovery)
+10文件和目錄發現 (File and Directory Discovery)
+11組策略發現 (Group Policy Discovery)
+12網絡服務掃描 (Network Service Scanning)
+13網絡共享發現 (Network Share Discovery)
+14網絡嗅探 (Network Sniffing)
+15密碼策略發現 (Password Policy Discovery)
+16外圍設備發現 (Peripheral Device Discovery)
+17權限組發現 (Permission Groups Discovery)
+18進程發現 (Process Discovery)
+19查詢註冊表 (Query Registry)
+20遠程系統發現 (Remote System Discovery)
+21軟件發現 (Software Discovery)
+22系統信息發現 (System Information Discovery)
+23系統位置發現 (System Location Discovery)
+24系統網絡配置發現 (System Network Configuration Discovery)
+25系統網絡連接發現 (System Network Connections Discovery)
+26系統所有者-用戶發現 (System Owner-User Discovery)
+27系統服務發現 (System Service Discovery)
+28系統時間發現 (System Time Discovery)
+29虛擬化-沙箱規避 (Virtualization-Sandbox Evasion)
+30調試器規避 (Debugger Evasion)
+31設備驅動程序發現 (Device Driver Discovery)
+32日誌枚舉 (Log Enumeration)"
+TA0002 Execution,"執行 - TA0002
+
+描述
+
+攻擊者試圖運行惡意代碼。執行包括導致攻擊者控制的代碼在本地或遠程系統上運行的技術。運行惡意代碼的技術通常與來自所有其他策略的技術配對，以實現更廣泛的目標，例如探索網絡或竊取數據。例如，攻擊者可能會使用遠程訪問工具來運行執行遠程系統發現的 PowerShell 腳本。
+
+技術
+
+01命令和腳本解釋器 (Command and Scripting Interpreter)
+02容器管理命令 (Container Administration Command)
+03部署容器 (Deploy Container)
+04用於客戶端執行的利用 (Exploitation for Client Execution)
+05進程間通信 (Inter-Process Communication)
+06原生 API (Native API)
+07計劃任務-作業 (Scheduled Task-Job)
+08共享模塊 (Shared Modules)
+09軟件部署工具 (Software Deployment Tools)
+10系統服務 (System Services)
+11用戶執行 (User Execution)
+12Windows 管理儀器 (Windows Management Instrumentation)
+13雲管理命令 (Cloud Administration Command)
+14無服務器執行 (Serverless Execution)"
+TA0010 Exfiltration,"滲透 - TA0010
+
+描述
+
+攻擊者試圖竊取數據。滲透包括攻擊者可能用來從您的網絡竊取數據的技術。一旦他們收集了數據，攻擊者通常會將其打包以避免檢測，同時刪除它。這可能包括壓縮和加密。從目標網絡獲取數據的技術通常包括通過其命令和控制通道或替代通道傳輸它，並且可能還包括對傳輸設置大小限制。
+
+技術
+
+01自動化滲透 (Automated Exfiltration)
+02數據傳輸大小限制 (Data Transfer Size Limits)
+03通過替代協議滲透 (Exfiltration Over Alternative Protocol)
+04通過 C2 通道滲透 (Exfiltration Over C2 Channel)
+05通過其他網絡介質滲透 (Exfiltration Over Other Network Medium)
+06通過物理介質滲透 (Exfiltration Over Physical Medium)
+07通過網絡服務滲透 (Exfiltration Over Web Service)
+08計劃傳輸 (Scheduled Transfer)
+09將數據轉移到雲帳戶 (Transfer Data to Cloud Account)"
+TA0040 Impact,"影響 - TA0040
+
+描述
+
+攻擊者試圖操縱、中斷或摧毀您的系統和數據。影響包括攻擊者用來通過操縱業務和運營流程來破壞可用性或損害完整性的技術。用於影響的技術可能包括破壞或篡改數據。在某些情況下，業務流程可能看起來不錯，但可能已被更改以有利於攻擊者的目標。攻擊者可能會使用這些技術來跟進他們的最終目標或為保密漏洞提供掩護。
+
+技術
+
+01帳戶訪問移除 (Account Access Removal)
+02數據破壞 (Data Destruction)
+03為影響加密數據 (Data Encrypted for Impact)
+04數據操縱 (Data Manipulation)
+05毀損 (Defacement)
+06磁盤擦除 (Disk Wipe)
+07端點拒絕服務 (Endpoint Denial of Service)
+08固件損壞 (Firmware Corruption)
+09抑制系統恢復 (Inhibit System Recovery)
+10網絡拒絕服務 (Network Denial of Service)
+11資源劫持 (Resource Hijacking)
+12服務停止 (Service Stop)
+13系統關閉-重新啟動 (System Shutdown-Reboot)
+14金融盜竊 (Financial Theft)"
+TA0001 Initial Access,"初始訪問 - TA0001
+
+描述
+
+攻擊者試圖進入您的網絡。初始訪問包括使用各種入口向量在網絡內獲得初始立足點的技術。用於獲得立足點的技術包括針對性魚叉式釣魚和利用面向公眾的網絡服務器的弱點。通過初始訪問獲得的立足點可能允許持續訪問，例如有效帳戶和使用外部遠程服務，或者由於更改密碼而可能使用有限。
+
+技術
+
+01驅動式入侵 (Drive-by Compromise)
+02利用面向公眾的應用程序 (Exploit Public-Facing Application)
+03外部遠程服務 (External Remote Services)
+04硬件添加 (Hardware Additions)
+05網絡釣魚 (Phishing)
+06通過可移動媒體複製 (Replication Through Removable Media)
+07供應鏈入侵 (Supply Chain Compromise)
+08信任關係 (Trusted Relationship)
+09有效帳戶 (Valid Accounts)
+10內容注入 (Content Injection)"
+TA0008 Lateral Movement,"橫向移動 - TA0008
+
+描述
+
+攻擊者試圖在您的環境中移動。橫向移動包括攻擊者用於進入和控制網絡上遠程系統的技術。實現其主要目標通常需要探索網絡以找到其目標並隨後獲得對其的訪問權限。達到目標通常涉及通過多個系統和帳戶進行樞轉以獲得。攻擊者可能會安裝自己的遠程訪問工具來完成橫向移動，或者使用帶有本地網絡和操作系統工具的合法憑據，這可能更隱蔽。
+
+技術
+
+01遠程服務利用 (Exploitation of Remote Services)
+02內部魚叉式釣魚 (Internal Spearphishing)
+03橫向工具轉移 (Lateral Tool Transfer)
+04遠程服務會話劫持 (Remote Service Session Hijacking)
+05遠程服務 (Remote Services)
+06通過可移動媒體複製 (Replication Through Removable Media)
+07軟件部署工具 (Software Deployment Tools)
+08污染共享內容 (Taint Shared Content)
+09使用替代身份驗證材料 (Use Alternate Authentication Material)"
+TA0003 Persistence,"持久性 - TA0003
+
+描述
+
+攻擊者試圖維持他們的立足點。持久性包括攻擊者用來在重新啟動、更改憑據和其他可能切斷其訪問的中斷中保持對系統的訪問的技術。用於持久性的技術包括任何可以讓他們在系統上維持立足點的訪問、操作或配置更改，例如替換或劫持合法代碼或添加啟動代碼。
+
+技術
+
+01帳戶操作 (Account Manipulation)
+02位元圖作業 (BITS Jobs)
+03啟動或登錄自動啟動執行 (Boot or Logon Autostart Execution)
+04啟動或登錄初始化腳本 (Boot or Logon Initialization Scripts)
+05瀏覽器擴展 (Browser Extensions)
+06破壞客戶端軟件二進制文件 (Compromise Client Software Binary)
+07創建帳戶 (Create Account)
+08創建或修改系統進程 (Create or Modify System Process)
+09事件觸發執行 (Event Triggered Execution)
+10外部遠程服務 (External Remote Services)
+11劫持執行流程 (Hijack Execution Flow)
+12植入內部映像 (Implant Internal Image)
+13修改身份驗證過程 (Modify Authentication Process)
+14Office 應用程序啟動 (Office Application Startup)
+15預操作系統啟動 (Pre-OS Boot)
+16計劃任務-作業 (Scheduled Task-Job)
+17計劃任務-作業 (Scheduled Task-Job)
+18流量信號 (Traffic Signaling)
+19有效帳戶 (Valid Accounts)
+20電源設置 (Power Settings)"
+TA0004 Privilege Escalation,"權限提升 - TA0004
+
+描述
+
+攻擊者試圖獲得更高層級的權限。權限提升包括攻擊者用來在系統或網絡上獲得更高層級權限的技術。攻擊者通常可以進入並探索網絡，但需要提升的權限才能完成其目標。常見的方法是利用系統弱點、錯誤配置和漏洞。提升的訪問權限示例包括：
+系統/根級
+本地管理員
+具有類似管理員訪問權限的用戶帳戶
+具有訪問特定系統或執行特定功能的用戶帳戶
+
+這些技術通常與持久性技術重疊，因為允許攻擊者持續存在的操作系統功能可以在提升的上下文中執行。
+
+技術
+
+01濫用提升控制機制 (Abuse Elevation Control Mechanism)
+02訪問令牌操作 (Access Token Manipulation)
+03啟動或登錄自動啟動執行 (Boot or Logon Autostart Execution)
+04啟動或登錄初始化腳本 (Boot or Logon Initialization Scripts)
+05創建或修改系統進程 (Create or Modify System Process)
+06域策略修改 (Domain Policy Modification)
+07逃逸到主機 (Escape to Host)
+08事件觸發執行 (Event Triggered Execution)
+09用於權限提升的利用 (Exploitation for Privilege Escalation)
+10劫持執行流程 (Hijack Execution Flow)
+11進程注入 (Process Injection)
+12計劃任務-作業 (Scheduled Task-Job)
+13有效帳戶 (Valid Accounts)
+14帳戶操作 (Account Manipulation)"
+TA0043 Reconnaissance,"偵察 - TA0043
+
+描述
+
+攻擊者試圖收集可用于計劃未來行動的信息。偵察包括涉及攻擊者主動或被動收集可用于支持目標的信息的技術。此類信息可能包括受害者組織、基礎設施或員工/人員的詳細信息。攻擊者可以利用這些信息來幫助攻擊者生命週期的其他階段，例如使用收集的信息來計劃和執行初始訪問、確定和優先考慮入侵後目標，或驅動和引導進一步的偵察工作。
+
+技術
+
+01主動掃描 (Active Scanning)
+02收集受害者主機信息 (Gather Victim Host Information)
+03收集受害者身份信息 (Gather Victim Identity Information)
+04收集受害者網絡信息 (Gather Victim Network Information)
+05收集受害者組織信息 (Gather Victim Org Information)
+06為信息進行網絡釣魚 (Phishing for Information)
+07搜索封閉源 (Search Closed Sources)
+08搜索開放技術數據庫 (Search Open Technical Databases)
+09搜索受害者擁有的網站 (Search Victim-Owned Websites)
+10搜索開放網站域名 (Search Open Websites Domains)"
+TA0042 Resource Development,"資源開發 - TA0042
+
+描述
+
+攻擊者試圖建立可用于支持運營的資源。資源開發包括涉及攻擊者創建、購買或破壞/竊取可用于支持目標的資源的技術。此類資源包括基礎設施、帳戶或功能。攻擊者可以利用這些資源來幫助攻擊者生命週期的其他階段，例如使用購買的域來支持命令和控制，使用電子郵件帳戶作為初始訪問的一部分進行網絡釣魚，或竊取代碼簽名證書以幫助防禦規避。
+
+技術
+
+01獲取基礎設施 (Acquire Infrastructure)
+02破壞帳戶 (Compromise Accounts)
+03破壞基礎設施 (Compromise Infrastructure)
+04開發功能 (Develop Capabilities)
+05建立帳戶 (Establish Accounts)
+06獲得功能 (Obtain Capabilities)
+07階段功能 (Stage Capabilities)
+08獲取訪問權限 (Acquire Access)"
