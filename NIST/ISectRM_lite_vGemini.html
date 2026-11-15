@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 年度資訊安全與風險控管績效報告</title>
+<style>
+  /* ==========================================================================
+     1. CSS VARIABLES & THEME CONFIGURATION
+     Customize colors, typography, and spacing here.
+     ========================================================================== */
+  :root {
+    --bg-base: #070d19;
+    --bg-surface: #0f172a;
+    --bg-card: #162238;
+    --bg-card-hover: #1d2d4a;
+    --border-subtle: rgba(148, 163, 184, 0.14);
+    --border-accent: rgba(56, 189, 248, 0.35);
+
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    --accent-primary: #38bdf8;
+    --accent-secondary: #818cf8;
+    --accent-glow: rgba(56, 189, 248, 0.16);
+
+    --status-good: #10b981;
+    --status-good-bg: rgba(16, 185, 129, 0.12);
+    --status-warn: #f59e0b;
+    --status-warn-bg: rgba(245, 158, 11, 0.12);
+    --status-risk: #ef4444;
+    --status-risk-bg: rgba(239, 68, 68, 0.12);
+
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+    --sidebar-width: 260px;
+    --topbar-height: 4px;
+    --bottombar-height: 54px;
+    --transition-speed: 0.32s;
+  }
+
+  /* ==========================================================================
+     2. RESET & BASE LAYOUT
+     ========================================================================== */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+
+  /* ==========================================================================
+     3. APPLICATION SHELL (SIDEBAR, PROGRESS BAR, MAIN STAGE, CONTROLS)
+     ========================================================================== */
+  .app-shell {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  /* Top continuous progress bar */
+  .top-progress-track {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--topbar-height);
+    background: rgba(255, 255, 255, 0.06);
+    z-index: 100;
+  }
+
+  .top-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    transition: width var(--transition-speed) cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Left Navigation & Topic Sidebar */
+  .sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px 20px;
+    z-index: 20;
+    flex-shrink: 0;
+  }
+
+  .brand-header {
+    padding: 0 8px 18px;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 16px;
+  }
+
+  .brand-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    background: var(--accent-glow);
+    border: 1px solid var(--border-accent);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .brand-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.35;
+  }
+
+  .brand-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .topic-nav-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    padding: 0 8px;
+    margin-bottom: 8px;
+  }
+
+  .topic-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .topic-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    user-select: none;
+  }
+
+  .topic-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+  }
+
+  .topic-item.active {
+    background: var(--accent-glow);
+    color: var(--text-primary);
+    font-weight: 700;
+    border-color: var(--border-accent);
+  }
+
+  .topic-item.completed .topic-dot {
+    background: var(--status-good);
+    border-color: var(--status-good);
+  }
+
+  .topic-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+
+  .topic-item.active .topic-dot {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 8px var(--accent-primary);
+  }
+
+  .topic-text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .topic-slide-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .topic-item.active .topic-slide-tag {
+    color: var(--accent-primary);
+  }
+
+  .sidebar-footer {
+    padding-top: 14px;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Main Viewport & Slides Container */
+  .main-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+    background:
+      radial-gradient(circle at 88% 12%, rgba(56, 189, 248, 0.06), transparent 36%),
+      radial-gradient(circle at 12% 90%, rgba(129, 140, 248, 0.05), transparent 40%),
+      var(--bg-base);
+  }
+
+  .slides-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    padding: 36px 48px 24px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition:
+      opacity var(--transition-speed) ease,
+      transform var(--transition-speed) cubic-bezier(0.22, 1, 0.36, 1),
+      visibility var(--transition-speed);
+    overflow-y: auto;
+  }
+
+  .slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    z-index: 5;
+  }
+
+  /* Slide Header */
+  .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 22px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+  }
+
+  .section-kicker {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-primary);
+    margin-bottom: 4px;
+  }
+
+  .slide-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .slide-meta-badge {
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    padding: 5px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .slide-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Bottom Navigation Bar */
+  .bottom-bar {
+    height: var(--bottombar-height);
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid var(--border-subtle);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    z-index: 20;
+  }
+
+  .progress-status {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .progress-pill {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .progress-pct {
+    color: var(--accent-primary);
+    font-family: var(--font-mono);
+    font-weight: 600;
+  }
+
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-btn {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    padding: 6px 13px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .nav-btn:hover:not(:disabled) {
+    background: var(--bg-card-hover);
+    border-color: var(--border-accent);
+    color: var(--accent-primary);
+  }
+
+  .nav-btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .nav-btn.primary {
+    background: rgba(56, 189, 248, 0.16);
+    border-color: var(--border-accent);
+    color: var(--accent-primary);
+  }
+
+  .nav-btn.primary:hover:not(:disabled) {
+    background: rgba(56, 189, 248, 0.26);
+  }
+
+  .kbd-hint {
+    font-size: 11.5px;
+    color: var(--text-muted);
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--text-secondary);
+  }
+
+  /* ==========================================================================
+     4. CONTENT COMPONENTS (CARDS, GRIDS, METRICS, TABLES, BARS)
+     ========================================================================== */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 20px 22px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .card:hover {
+    border-color: rgba(148, 163, 184, 0.28);
+  }
+
+  .card-accent-top {
+    border-top: 3px solid var(--accent-primary);
+  }
+
+  .card-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .kpi-label {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .kpi-value {
+    font-size: 32px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .kpi-value.accent { color: var(--accent-primary); }
+  .kpi-value.good { color: var(--status-good); }
+  .kpi-value.warn { color: var(--status-warn); }
+
+  .kpi-delta {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .delta-good { background: var(--status-good-bg); color: var(--status-good); }
+  .delta-warn { background: var(--status-warn-bg); color: var(--status-warn); }
+  .delta-risk { background: var(--status-risk-bg); color: var(--status-risk); }
+
+  .bullet-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .bullet-list li {
+    position: relative;
+    padding-left: 16px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .bullet-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-primary);
+  }
+
+  .bullet-list li strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* Progress Bars inside slides */
+  .bar-row {
+    margin-bottom: 14px;
+  }
+  .bar-row:last-child { margin-bottom: 0; }
+
+  .bar-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .bar-meta span:first-child { color: var(--text-primary); font-weight: 600; }
+  .bar-meta span:last-child { font-family: var(--font-mono); color: var(--accent-primary); font-weight: 700; }
+
+  .bar-track {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  }
+
+  .bar-fill.good { background: var(--status-good); }
+  .bar-fill.warn { background: var(--status-warn); }
+
+  /* Data Table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-secondary);
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .data-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td strong { color: var(--text-primary); }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-weight: 700;
+  }
+
+  /* Cover & Closing Specific Styling */
+  .cover-box {
+    max-width: 820px;
+    padding: 16px 0;
+  }
+
+  .cover-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--accent-glow);
+    border: 1px solid var(--border-accent);
+    color: var(--accent-primary);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+
+  .cover-title {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cover-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin-bottom: 36px;
+    line-height: 1.6;
+  }
+
+  .cover-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(160px, 220px));
+    gap: 16px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .cover-meta-item span {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+
+  .cover-meta-item strong {
+    font-size: 14.5px;
+    color: var(--text-primary);
+  }
+
+  /* Responsive adjustments for smaller laptop screens */
+  @media (max-width: 1120px) {
+    :root { --sidebar-width: 220px; }
+    .slide { padding: 28px 32px 20px; }
+    .slide-title { font-size: 24px; }
+    .cover-title { font-size: 36px; }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 820px) {
+    .sidebar { display: none; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .kbd-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- Top Continuous Progress Bar -->
+  <div class="top-progress-track">
+    <div class="top-progress-fill" id="topProgressFill"></div>
+  </div>
+
+  <!-- Left Persistent Topic Sidebar -->
+  <aside class="sidebar" aria-label="簡報章節導覽">
+    <div class="brand-header">
+      <div class="brand-badge">CONFIDENTIAL · INTERNAL</div>
+      <div class="brand-title">2026 資安與風險控管績效報告</div>
+      <div class="brand-sub">NIST CSF IPDRR 治理架構</div>
+    </div>
+
+    <div class="topic-nav-label">章節導覽（點擊跳轉）</div>
+    <ul class="topic-list" id="topicList">
+      <!-- Populated dynamically via JavaScript from slide metadata -->
+    </ul>
+
+    <div class="sidebar-footer">
+      <span>資訊安全處</span>
+      <span id="sidebarPct">9%</span>
+    </div>
+  </aside>
+
+  <!-- Main Presentation Stage -->
+  <main class="main-stage">
+    <div class="slides-wrapper" id="slidesWrapper">
+
+      <!-- ================================================================
+           SLIDE 1: COVER
+           ================================================================ -->
+      <section class="slide active" data-topic="封面總覽" data-title="年度績效報告封面">
+        <div class="slide-body">
+          <div class="cover-box">
+            <div class="cover-eyebrow">FY2026 ANNUAL SECURITY & RISK GOVERNANCE REPORT</div>
+            <h1 class="cover-title">2026 年度資訊安全與<br>實質風險控管績效報告</h1>
+            <p class="cover-subtitle">
+              以 NIST CSF（識別、保護、偵測、回應、復原）為核心架構，全面檢視企業資產可視性、縱深防禦韌性、SOC 威脅偵測效能及下年度零信任演進藍圖。
+            </p>
+            <div class="cover-meta-grid">
+              <div class="cover-meta-item">
+                <span>報告單位</span>
+                <strong>資訊安全處 / 風險控管中心</strong>
+              </div>
+              <div class="cover-meta-item">
+                <span>報告週期</span>
+                <strong>2026 Q1 – Q4 全年度結算</strong>
+              </div>
+              <div class="cover-meta-item">
+                <span>機密等級</span>
+                <strong>內部限閱（Internal Only）</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 2: AGENDA / OUTLINE
+           ================================================================ -->
+      <section class="slide" data-topic="報告大綱" data-title="議程與治理框架">
+        <header class="slide-header">
+          <div>
+            <div class="section-kicker">01 · AGENDA & FRAMEWORK</div>
+            <h2 class="slide-title">報告大綱與 NIST IPDRR 治理全貌</h2>
+          </div>
+          <div class="slide-meta-badge">涵蓋五大構面 · 20 項核心控制</div>
+        </header>
+        <div class="slide-body">
+          <div class="grid-2">
+            <div class="card card-accent-top">
+              <div class="card-title">本報告核心議程</div>
+              <ul class="bullet-list">
+                <li><strong>執行摘要：</strong>年度資安成熟度總評與零重大營運中斷達成概況。</li>
+                <li><strong>關鍵績效指標（KPI）：</strong>識別與保護（Identify & Protect）量化成果。</li>
+                <li><strong>偵測與回應效能：</strong>SOC 告警收斂、MTTD/MTTR 縮減與演練成效。</li>
+                <li><strong>風險與弱點態勢：</strong>高風險 CVE 修補率、滲透測試與年度事件分析。</li>
+                <li><strong>重點專案與改善建議：</strong>PAM 特權納管、SSDLC 導入與下年度資源規劃。</li>
+              </ul>
+            </div>
+            <div class="card">
+              <div class="card-title">實質風險管理五構面（NIST IPDRR）</div>
+              <ul class="bullet-list">
+                <li><strong>1. Identify（識別）：</strong>全資產清冊、SBOM、黃金映像基準與紅隊弱點驗證。</li>
+                <li><strong>2. Protect（保護）：</strong>網路微分割、IAM/PAM 最小權限、DLP 與社交工程培訓。</li>
+                <li><strong>3. Detect（偵測）：</strong>異常流量與帳號行為監控、EDR/FIM 與 SIEM 關聯分析。</li>
+                <li><strong>4. Respond（回應）：</strong>標準化 SOP 隔離處置、證據保全與攻擊鏈根因調查（RCA）。</li>
+                <li><strong>5. Recover（復原）：</strong>離線不可竄改備份與核心系統災難復原（DR）演練。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 3: OVERALL SUMMARY
+           ================================================================ -->
+      <section class="slide" data-topic="執行摘要" data-title="年度總體執行摘要">
+        <header class="slide-header">
+          <div>
+            <div class="section-kicker">02 · EXECUTIVE SUMMARY</div>
+            <h2 class="slide-title">年度總體執行摘要：韌性提升與風險收斂</h2>
+          </div>
+          <div class="slide-meta-badge">綜合成熟度：3.8 / 5.0（+0.6 YoY）</div>
+        </header>
+        <div class="slide-body">
+          <div class="grid-4" style="margin-bottom: 20px;">
+            <div class="card">
+              <div class="kpi-label">重大資安中斷事件</div>
+              <div class="kpi-value good">0 件</div>
+              <span class="kpi-delta delta-good">連續 24 個月零營運中斷</span>
+            </div>
+            <div class="card">
+              <div class="kpi-label">關鍵系統組態合規率</div>
+              <div class="kpi-value accent">96.4%</div>
+              <span class="kpi-delta delta-good">較去年提升 +11.2%</span>
+            </div>
+            <div class="card">
+              <div class="kpi-label">高風險弱點 SLA 達成率</div>
+              <div class="kpi-value accent">98.1%</div>
+              <span class="kpi-value-sub kpi-delta delta-good">7 日內完成修補與複測</span>
+            </div>
+            <div class="card">
+              <div class="kpi-label">平均事件回應時間 MTTR</div>
+              <div class="kpi-value good">28 分鐘</div>
+              <span class="kpi-delta delta-good">較去年縮短 54%</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">管理階層關鍵洞察</div>
+            <ul class="bullet-list">
+              <li><strong>可視性全面覆蓋：</strong>完成地端、多雲及 SaaS 資產自動盤點，納管率達 99.2%，消除 142 個影子 IT 與幽靈特權帳號。</li>
+              <li><strong>主動防禦顯著見效：</strong>藉由 EDR 與 SIEM 自動化劇本（SOAR），將 94% 端點異常行為於橫向移動前自動隔離阻斷。</li>
+              <li><strong>待強化缺口：</strong>第三方供應商 API 介接與舊型營運系統（Legacy OT/ERP）仍存在部分修補窗口受限，列為下年度首要治理項目。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 4: KEY METRICS & ACHIEVEMENTS (PART 1: IDENTIFY & PROTECT)
+           ================================================================ -->
+      <section class="slide" data-topic="關鍵績效指標" data-title="識別與保護構面績效">
+        <header class="slide-header">
+          <div>
+            <div class="section-kicker">03 · KEY METRICS (IDENTIFY & PROTECT)</div>
+            <h2 class="slide-title">關鍵績效指標（一）：資產識別與縱深保護</h2>
+          </div>
+          <div class="slide-meta-badge">覆蓋範疇：地端 + 雲端 + 端點</div>
+        </header>
+        <div class="slide-body">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title">核心控制項達成率</div>
+              <div class="bar-row">
+                <div class="bar-meta"><span>1.1 軟硬體資產與帳號清冊納管率</span><span>99.2%</span></div>
+                <div class="bar-track"><div class="bar-fill good" style="width: 99.2%;"></div></div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-meta"><span>2.2 特權帳號 PAM 納管與側錄覆蓋率</span><span>95.0%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 95%;"></div></div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-meta"><span>2.3 CIS 安全組態基準加固率</span><span>96.4%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width: 96.4%;"></div></div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-meta"><span>2.5 新系統上線前 SAST/SCA 掃描覆蓋率</span><span>100%</span></div>
+                <div class="bar-track"><div class="bar-fill good" style="width: 100%;"></div></div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-meta"><span>2.7 全體員工與外包資安意識完訓率</span><span>98.8%</span></div>
+                <div class="bar-track"><div class="bar-fill good" style="width: 98.8%;"></div></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">年度代表性防護成果</div>
+              <ul class="bullet-list">
+                <li><strong>網路微分割與邊界收斂：</strong>完成核心資料庫區與辦公網段隔離，收斂 318 條過寬防火牆 ACL 規則，外部遠端連線 100% 強制 MFA 與來源白名單。</li>
+                <li><strong>資料外洩防護（DLP）：</strong>納管機密檔案加密標籤，全年攔截 67 起未授權外寄敏感客戶資料與原始碼行為。</li>
+                <li><strong>社交工程演練：</strong>執行 4 季無預警釣魚郵件演練，全公司平均點擊率由 Q1 的 9.4% 穩定下降至 Q4 的 2.1%（優於產業標竿 4.5%）。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 5: KEY METRICS & ACHIEVEMENTS (PART 2: DETECT, RESPOND, RECOVER)
+           ================================================================ -->
+      <section class="slide" data-topic="關鍵績效指標" data-title="偵測、回應與復原效能">
+        <header class="slide-header">
+          <div>
+            <div class="section-kicker">04 · KEY METRICS (DETECT, RESPOND & RECOVER)</div>
+            <h2 class="slide-title">關鍵績效指標（二）：偵測、回應與復原韌性</h2>
+          </div>
+          <div class="slide-meta-badge">7×24 SOC 全時段監控</div>
+        </header>
+        <div class="slide-body">
+          <div class="grid-3" style="margin-bottom: 18px;">
+            <div class="card card-accent-top">
+              <div class="kpi-label">SIEM 日均處理事件量</div>
+              <div class="kpi-value accent">1.42 億</div>
+              <span class="kpi-delta delta-good">精準收斂為日均 14 件有效告警</span>
+            </div>
+            <div class="card card-accent-top">
+              <div class="kpi-label">平均威脅偵測時間 MTTD</div>
+              <div class="kpi-value good">6.5 分鐘</div>
+              <span class="kpi-delta delta-good">EDR + FIM 即時偏移告警</span>
+            </div>
+            <div class="card card-accent-top">
+              <div class="kpi-label">核心系統 DR 演練 RTO 達成</div>
+              <div class="kpi-value good">100%</div>
+              <span class="kpi-delta delta-good">離線不可竄改備份驗證通過</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">偵測與應變營運亮點</div>
+            <ul class="bullet-list">
+              <li><strong>情資驅動自動聯防：</strong>串接國內外 ISAC 與商用威脅情資（CTI），全年自動同步封鎖 18,450 筆惡意 C2 IP 與惡意程式雜湊值。</li>
+              <li><strong>帳號異常行為精準識別：</strong>導入 UEBA 異地登入與異常提權偵測規則，成功攔截 11 起憑證填充（Credential Stuffing）與異常 OAuth 授權嘗試。</li>
+              <li><strong>黃金映像快速重建：</strong>完成 28 套核心伺服器黃金映像檔（Golden Image）建置，災難復原演練實際還原時間較目標 RTO 提前 35%。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 6: RISK & VULNERABILITY HIGHLIGHTS
+           ================================================================ -->
+      <section class="slide" data-topic="風險與弱點態勢" data-title="弱點管理與滲透測試分析">
+        <header class="slide-header">
+          <div>
+            <div class="section-kicker">05 · VULNERABILITY & ASSESSMENT</div>
+            <h2 class="slide-title">弱點管理態勢與紅隊演練發現</h2>
+          </div>
+          <div class="slide-meta-badge">全年累計處理 1,284 項弱點</div>
+        </header>
+        <div class="slide-body">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title">年度弱點分級與修補統計</div>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>風險等級</th>
+                    <th>發現總數</th>
+                    <th>已修補</th>
+                    <th>平均天數</th>
+                    <th>狀態</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Critical（嚴重）</strong></td>
+                    <td>38</td>
+                    <td>38</td>
+                    <td>2.4 天</td>
+                    <td><span class="tag delta-good">100% 結案</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>High（高風險）</strong></td>
+                    <td>214</td>
+                    <td>210</td>
+                    <td>5.8 天</td>
+                    <td><span class="tag delta-good">98.1% 結案</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Medium（中風險）</strong></td>
+                    <td>642</td>
+                    <td>615</td>
+                    <td>18.2 天</td>
+                    <td><span class="tag delta-good">95.8% 結案</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Low（低風險）</strong></td>
+                    <td>390</td>
+                    <td>352</td>
+                    <td>34.0 天</td>
+                    <td><span class="tag delta-warn">持續追蹤</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card">
+              <div class="card-title">滲透測試與紅隊演練防禦盲點</div>
+              <ul class="bullet-list">
+                <li><strong>外網邊界滲透測試：</strong>針對 16 個對外服務與 API 執行黑箱/灰箱測試，發現 3 項權限越權（IDOR）與 2 項元件版本過舊問題，均已於上線前完成複測閉環。</li>
+                <li><strong>紅隊演練（Red Team）關鍵學習：</strong>模擬供應商 VPN 憑證外洩情境，藍隊於 9 分鐘內偵測到內網 AD 探測行為並成功阻斷；惟演練顯示部分服務帳號密碼輪替週期仍偏長，已納入 Q4 專案改善。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 7: SECURITY INCIDENT REVIEW
+           ================================================================ -->
+      <section class="slide" data-topic="風險與弱點態勢" data-title="年度資安事件與阻斷分析">
+        <header class="slide-header">
+          <div>
+            <div class="section-kicker">06 · INCIDENT & THREAT LANDSCAPE</div>
+            <h2 class="slide-title">年度資安事件統計與外部攻擊趨勢</h2>
+          </div>
+          <div class="slide-meta-badge">二級以上事件：3 件（均零資料外洩）</div>
+        </header>
+        <div class="slide-body">
+          <div class="grid-3" style="margin-bottom: 18px;">
+            <div class="card">
+              <div class="kpi-label">WAF 攔截惡意 Web 攻擊</div>
+              <div class="kpi-value accent">412 萬次</div>
+              <span class="kpi-delta delta-warn">自動化掃描與 SQLi/XSS 佔 78%</span>
+            </div>
+            <div class="card">
+              <div class="kpi-label">端點惡意程式即時阻斷</div>
+              <div class="kpi-value accent">189 件</div>
+              <span class="kpi-delta delta-good">100% 於執行階段前隔離</span>
+            </div>
+            <div class="card">
+              <div class="kpi-label">正式立案調查資安事件</div>
+              <div class="kpi-value good">14 件</div>
+              <span class="kpi-delta delta-good">均完成證據保全與 RCA 報告</span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">代表性事件處置與根因改善（RCA）</div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>季度</th>
+                  <th>事件類型</th>
+                  <th>影響範圍</th>
+                  <th>應變與根因改善措施</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Q1</strong></td>
+                  <td>外部測試機弱密碼遭暴力破解</td>
+                  <td>1 台非正式環境主機</td>
+                  <td>15 分鐘內隔離並重建；全面納管所有雲端測試機至 AD 並強制啟用 MFA。</td>
+                </tr>
+                <tr>
+                  <td><strong>Q2</strong></td>
+                  <td>員工個人信箱誤點釣魚附件</td>
+                  <td>1 台辦公筆電（EDR 攔截）</td>
+                  <td>Payload 未落地即遭 EDR 阻斷；強化郵件沙箱與高風險副檔名隔離政策。</td>
+                </tr>
+                <tr>
+                  <td><strong>Q3</strong></td>
+                  <td>第三方套件供應鏈弱點預警</td>
+                  <td>2 套內部微服務元件</td>
+                  <td>透過 SBOM 清冊 2 小時內精準定位受影響系統，當日完成版本升級。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 8: KEY PROJECTS
+           ================================================================ -->
+      <section class="slide" data-topic="年度重點專案" data-title="重點資安建置專案成果">
+        <header class="slide-header">
+          <div>
+            <div class="section-kicker">07 · KEY INITIATIVES & PROJECTS</div>
+            <h2 class="slide-title">年度四大重點資安專案交付成果</h2>
+          </div>
+          <div class="slide-meta-badge">預算執行率 97.5% · 如期如質交付</div>
+        </header>
+        <div class="slide-body">
+          <div class="grid-2">
+            <div class="card card-accent-top">
+              <div class="card-title">
+                <span>專案一：特權帳號管理平台（PAM）全面納管</span>
+                <span class="tag delta-good">已完成 100%</span>
+              </div>
+              <ul class="bullet-list">
+                <li>納管全公司 480+ 組伺服器、資料庫及網路設備特權帳號，落實密碼自動定期輪替與操作全程側錄稽核。</li>
+              </ul>
+            </div>
+
+            <div class="card card-accent-top">
+              <div class="card-title">
+                <span>專案二：SSDLC 安全開發生命週期自動化</span>
+                <span class="tag delta-good">已完成 100%</span>
+              </div>
+              <ul class="bullet-list">
+                <li>將 SAST 靜態掃描與 SCA 開源元件安全檢測整合至 CI/CD 流水線，建立全產品 SBOM 軟體物料清單，阻斷高風險元件進入正式環境。</li>
+              </ul>
+            </div>
+
+            <div class="card card-accent-top">
+              <div class="card-title">
+                <span>專案三：核心網段微分割與零信任存取（ZTNA）</span>
+                <span class="tag delta-good">已完成 95%</span>
+              </div>
+              <ul class="bullet-list">
+                <li>汰換傳統 VPN 全面存取模式，導入設備合規狀態檢查與應用層細粒度授權，大幅縮小內部橫向移動攻擊面。</li>
+              </ul>
+            </div>
+
+            <div class="card card-accent-top">
+              <div class="card-title">
+                <span>專案四：離線不可竄改備份與 DR 自動化演練</span>
+                <span class="tag delta-good">已完成 100%</span>
+              </div>
+              <ul class="bullet-list">
+                <li>建立實體氣隙（Air-Gap）與 WORM 不可竄改備份儲存池，防範勒索軟體加密破壞備份，並完成年度無預警切換驗證。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 9: CHALLENGES & RECOMMENDATIONS
+           ================================================================ -->
+      <section class="slide" data-topic="挑戰與改善建議" data-title="現行挑戰與治理建議">
+        <header class="slide-header">
+          <div>
+            <div class="section-kicker">08 · CHALLENGES & RECOMMENDATIONS</div>
+            <h2 class="slide-title">當前治理挑戰與管理階層建議</h2>
+          </div>
+          <div class="slide-meta-badge">風險導向 · 資源精準配置</div>
+        </header>
+        <div class="slide-body">
+          <div class="grid-3">
+            <div class="card">
+              <div class="card-title" style="color: var(--status-warn);">挑戰一：供應鏈與第三方 API 風險</div>
+              <ul class="bullet-list">
+                <li><strong>現況痛點：</strong>外部合作夥伴與 SaaS 串接數量年增 32%，部分廠商資安治理水準參差不齊。</li>
+                <li><strong>改善建議：</strong>建立第三方資安分級評估制度，將安全條款、API 最小權限與事件通報 SLA 納入採購合約必要條件。</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--status-warn);">挑戰二：AI 應用普及與資料外洩</div>
+              <ul class="bullet-list">
+                <li><strong>現況痛點：</strong>各部門積極導入生成式 AI 工具，存在機密程式碼或內部文件上傳至外部公開模型之風險。</li>
+                <li><strong>改善建議：</strong>制定企業 AI 安全使用規範，部署企業級 AI Gateway 進行敏感資訊遮罩（Masking）與審計留存。</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="card-title" style="color: var(--status-warn);">挑戰三：舊型系統修補與人力負荷</div>
+              <ul class="bullet-list">
+                <li><strong>現況痛點：</strong>少數營運關鍵舊系統因相容性限制無法即時套用 OS 修補，且重複性告警仍耗費分析師工時。</li>
+                <li><strong>改善建議：</strong>採用虛擬補丁（Virtual Patching）與嚴格網段隔離作為補償性控制，並擴大 SOAR 自動化劇本比例。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 10: NEXT YEAR FOCUS
+           ================================================================ -->
+      <section class="slide" data-topic="下年度工作重點" data-title="2027 年度資安策略藍圖">
+        <header class="slide-header">
+          <div>
+            <div class="section-kicker">09 · FY2027 STRATEGIC ROADMAP</div>
+            <h2 class="slide-title">2027 年度資安重點工作與演進藍圖</h2>
+          </div>
+          <div class="slide-meta-badge">目標成熟度：4.2 / 5.0</div>
+        </header>
+        <div class="slide-body">
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title">H1（上半年）：深化零信任與自動化防禦</div>
+              <ul class="bullet-list">
+                <li><strong>全場域零信任架構（ZTA）落地：</strong>將設備健康度與動態風險評分納入所有核心系統存取決策，納管範圍擴及承包商與 API 服務帳號。</li>
+                <li><strong>AI 賦能 SOC 自動化應變（SOAR）：</strong>導入 AI 告警關聯分析與自動劇本，目標將常見釣魚與異常登入處置自動化率提升至 80%。</li>
+                <li><strong>供應鏈持續性監控：</strong>針對一級關鍵供應商導入外部暴露面持續評級（ASM）與年度稽核機制。</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="card-title">H2（下半年）：資料治理深化與實戰化演練</div>
+              <ul class="bullet-list">
+                <li><strong>資料安全態勢管理（DSPM）：</strong>自動盤點多雲與地端資料庫中之個資與高敏資料分佈，強化異常大量存取行為即時阻斷。</li>
+                <li><strong>生成式 AI 安全治理閘道：</strong>全面上線企業 AI 存取控管與提示詞注入（Prompt Injection）防護機制。</li>
+                <li><strong>紫隊協同演練（Purple Teaming）：</strong>每半年執行針對勒索軟體與供應鏈攻擊劇本之紅藍對抗，持續驗證偵測規則有效性。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 11: Q&A / CLOSING
+           ================================================================ -->
+      <section class="slide" data-topic="結語與問答" data-title="結語與交流問答">
+        <div class="slide-body">
+          <div class="cover-box">
+            <div class="cover-eyebrow">THANK YOU & DISCUSSION</div>
+            <h2 class="cover-title">感謝聆聽 · 敬請指教</h2>
+            <p class="cover-subtitle">
+              資訊安全並非單一部門的防線，而是支撐企業數位轉型與業務永續經營的核心基石。歡迎各位長官與同仁提出寶貴建議與討論。
+            </p>
+            <div class="cover-meta-grid">
+              <div class="cover-meta-item">
+                <span>資訊安全事件通報專線</span>
+                <strong>分機 #8899 / soc@example.com</strong>
+              </div>
+              <div class="cover-meta-item">
+                <span>完整數據附錄與稽核清冊</span>
+                <strong>內部資安治理入口網（ISG Portal）</strong>
+              </div>
+              <div class="cover-meta-item">
+                <span>簡報操作提示</span>
+                <strong>按 Home 鍵或點擊左側章節可快速回顧</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Bottom Navigation & Progress Controls -->
+    <footer class="bottom-bar">
+      <div class="progress-status">
+        <span class="progress-pill" id="slideCounter">Slide 1 of 11</span>
+        <span id="currentTopicLabel" style="color: var(--text-primary); font-weight: 600;">封面總覽</span>
+        <span class="progress-pct" id="progressPercent">9%</span>
+      </div>
+
+      <div class="kbd-hint">
+        使用 <kbd>←</kbd> <kbd>→</kbd> 或 <kbd>A</kbd> <kbd>D</kbd> 鍵切換投影片
+      </div>
+
+      <div class="nav-controls">
+        <button class="nav-btn" id="btnFirst" title="第一頁 (Home)">⏮ 首頁</button>
+        <button class="nav-btn" id="btnPrev" title="上一頁 (← / A)">← 上一頁</button>
+        <button class="nav-btn primary" id="btnNext" title="下一頁 (→ / D / Space)">下一頁 →</button>
+        <button class="nav-btn" id="btnLast" title="最後一頁 (End)">末頁 ⏭</button>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script>
+  /**
+   * Presentation Controller
+   * Handles slide transitions, topic sidebar synchronization, progress indicators,
+   * URL hash persistence, and keyboard/button navigation.
+   */
+  (function () {
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const totalSlides = slides.length;
+
+    const topicListEl = document.getElementById('topicList');
+    const topProgressFill = document.getElementById('topProgressFill');
+    const slideCounterEl = document.getElementById('slideCounter');
+    const currentTopicLabelEl = document.getElementById('currentTopicLabel');
+    const progressPercentEl = document.getElementById('progressPercent');
+    const sidebarPctEl = document.getElementById('sidebarPct');
+
+    const btnFirst = document.getElementById('btnFirst');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const btnLast = document.getElementById('btnLast');
+
+    let currentIndex = 0;
+
+    // 1. Group slides by `data-topic` to build a clean, clickable topic navigation sidebar
+    const topics = [];
+    slides.forEach((slide, idx) => {
+      const topicName = slide.getAttribute('data-topic') || `章節 ${idx + 1}`;
+      const existing = topics.find(t => t.name === topicName);
+      if (!existing) {
+        topics.push({
+          name: topicName,
+          firstSlideIndex: idx,
+          lastSlideIndex: idx
+        });
+      } else {
+        existing.lastSlideIndex = idx;
+      }
+    });
+
+    function buildTopicSidebar() {
+      topicListEl.innerHTML = '';
+      topics.forEach((topic) => {
+        const li = document.createElement('li');
+        li.className = 'topic-item';
+        li.dataset.firstIndex = topic.firstSlideIndex;
+        li.dataset.lastIndex = topic.lastSlideIndex;
+
+        const slideRange = topic.firstSlideIndex === topic.lastSlideIndex
+          ? `${topic.firstSlideIndex + 1}`
+          : `${topic.firstSlideIndex + 1}-${topic.lastSlideIndex + 1}`;
+
+        li.innerHTML = `
+          <span class="topic-dot"></span>
+          <span class="topic-text">${topic.name}</span>
+          <span class="topic-slide-tag">P.${slideRange}</span>
+        `;
+
+        li.addEventListener('click', () => {
+          goToSlide(topic.firstSlideIndex);
+        });
+
+        topicListEl.appendChild(li);
+      });
+    }
+
+    // 2. Navigate to a specific slide index
+    function goToSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      currentIndex = index;
+
+      // Toggle active slide class
+      slides.forEach((slide, idx) => {
+        if (idx === currentIndex) {
+          slide.classList.add('active');
+          slide.scrollTop = 0;
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      // Calculate progress percentage
+      const pct = Math.round(((currentIndex + 1) / totalSlides) * 100);
+      topProgressFill.style.width = `${pct}%`;
+      slideCounterEl.textContent = `Slide ${currentIndex + 1} of ${totalSlides}`;
+      progressPercentEl.textContent = `${pct}%`;
+      if (sidebarPctEl) sidebarPctEl.textContent = `${pct}%`;
+
+      // Update active topic highlight
+      const activeTopicName = slides[currentIndex].getAttribute('data-topic') || '';
+      currentTopicLabelEl.textContent = activeTopicName;
+
+      const topicItems = Array.from(topicListEl.querySelectorAll('.topic-item'));
+      topicItems.forEach((item) => {
+        const start = parseInt(item.dataset.firstIndex, 10);
+        const end = parseInt(item.dataset.lastIndex, 10);
+
+        item.classList.remove('active', 'completed');
+        if (currentIndex >= start && currentIndex <= end) {
+          item.classList.add('active');
+          item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        } else if (currentIndex > end) {
+          item.classList.add('completed');
+        }
+      });
+
+      // Update button states
+      btnFirst.disabled = currentIndex === 0;
+      btnPrev.disabled = currentIndex === 0;
+      btnNext.disabled = currentIndex === totalSlides - 1;
+      btnLast.disabled = currentIndex === totalSlides - 1;
+
+      // Sync URL hash for bookmarking/refresh persistence
+      if (history.replaceState) {
+        history.replaceState(null, '', `#slide-${currentIndex + 1}`);
+      }
+    }
+
+    // 3. Button Event Listeners
+    btnFirst.addEventListener('click', () => goToSlide(0));
+    btnPrev.addEventListener('click', () => goToSlide(currentIndex - 1));
+    btnNext.addEventListener('click', () => goToSlide(currentIndex + 1));
+    btnLast.addEventListener('click', () => goToSlide(totalSlides - 1));
+
+    // 4. Keyboard Navigation (ArrowLeft/Right, A/D, Home/End, Space)
+    document.addEventListener('keydown', (e) => {
+      // Ignore shortcuts if user is typing inside an input/textarea
+      const tag = e.target.tagName.toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+
+      switch (e.key) {
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+        case 'PageDown':
+          e.preventDefault();
+          goToSlide(currentIndex + 1);
+          break;
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+        case 'PageUp':
+          e.preventDefault();
+          goToSlide(currentIndex - 1);
+          break;
+        case ' ':
+          e.preventDefault();
+          goToSlide(e.shiftKey ? currentIndex - 1 : currentIndex + 1);
+          break;
+        case 'Home':
+          e.preventDefault();
+          goToSlide(0);
+          break;
+        case 'End':
+          e.preventDefault();
+          goToSlide(totalSlides - 1);
+          break;
+      }
+    });
+
+    // 5. Initialize presentation
+    buildTopicSidebar();
+
+    // Check URL hash on load (e.g., #slide-4)
+    const hashMatch = window.location.hash.match(/^#slide-(\d+)$/);
+    const initialSlide = hashMatch ? parseInt(hashMatch[1], 10) - 1 : 0;
+    goToSlide(initialSlide);
+  })();
+</script>
+</body>
+</html>
+<!-- Approximate file size: ~26.5 KB -->

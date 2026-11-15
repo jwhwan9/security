@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>資安實質風險管理</title>
+<style>
+:root{--bg:#fff;--fg:#0f1f3d;--pri:#12306b;--pri2:#dbe5f7;--dn:#12306b;--acc:#e8730c;--mut:#4f5f78;--card:#f1f4f9;--line:#d5dce8;--off:#8793a8}
+[data-theme=dark]{--bg:#0b1630;--fg:#eaf0fb;--pri:#3366cc;--pri2:#223a6b;--dn:#a8c4ff;--acc:#ffa84d;--mut:#aebbd2;--card:#14234a;--line:#2a3d6b;--off:#6d7ea3}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+#stage{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
+.slide.on{opacity:1;visibility:visible;transition:opacity .25s}
+@media(prefers-reduced-motion:reduce){.slide,.slide.on{transition:none}}
+.top{display:flex;gap:6px;align-items:center;height:60px;padding:0 40px;border-bottom:1px solid var(--line);flex:none}
+.top button{font:400 18px inherit;font-family:inherit;border:0;background:none;padding:8px 14px;border-radius:8px;color:var(--off);cursor:pointer;white-space:nowrap}
+.top button.d{color:var(--dn);background:var(--pri2)}
+.top button.c{background:var(--pri);color:#fff;font-weight:800}
+.body{flex:1;min-height:0;padding:26px 64px 8px;display:flex;flex-direction:column}
+h1{font-size:36px;line-height:1.3;font-weight:800;margin-bottom:24px;padding-left:18px;border-left:8px solid var(--acc)}
+footer{height:46px;flex:none;display:flex;align-items:center;gap:20px;padding:0 40px;font-size:18px;color:var(--mut)}
+.bar{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pri)}
+.li{display:flex;gap:20px;align-items:flex-start;margin-bottom:13px}
+.li .n{flex:none;width:46px;height:46px;border-radius:50%;background:var(--pri);color:#fff;font-size:25px;font-weight:800;line-height:46px;text-align:center}
+.li h3{font-size:29px;line-height:1.3}.li p{font-size:22px;color:var(--mut);margin-top:2px;line-height:1.35}
+.li.dec{background:var(--card);border-left:8px solid var(--acc);border-radius:10px;padding:14px 22px;align-items:center}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;flex:1;margin-bottom:14px}
+.pane{background:var(--card);border-radius:14px;padding:24px 30px;border-top:6px solid var(--pri)}.pane.r{border-top-color:var(--acc)}
+.pane h2{font-size:30px;margin-bottom:14px}.pane ul{padding-left:26px}.pane li{font-size:25px;line-height:1.4;margin-bottom:12px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.card{background:var(--card);border-radius:14px;padding:24px 22px;border-bottom:6px solid var(--acc)}
+.card .v{font-size:60px;font-weight:800;color:var(--dn);line-height:1.2}.card.s .v{font-size:38px;padding:10px 0}
+.card .l{font-size:25px;font-weight:700;margin-top:6px}.card .d{font-size:21px;color:var(--mut);margin-top:8px;line-height:1.4}
+.note{margin-top:22px;font-size:23px;color:var(--mut);padding:12px 20px;border-left:6px solid var(--acc);background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:22px}
+th{background:var(--pri);color:#fff;text-align:left;padding:12px 16px;font-size:22px}
+td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.4}
+tr:nth-child(even) td{background:var(--card)}td:first-child{font-weight:700}
+.tag{display:inline-block;padding:2px 16px;border-radius:14px;font-weight:700;background:var(--acc);color:#1b1200}.tag.m{background:var(--pri2);color:var(--dn)}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:start}
+.col{background:var(--card);border-radius:12px;overflow:hidden}.col h3{background:var(--pri);color:#fff;padding:12px 14px;font-size:22px}
+.col h3 small{display:block;font-size:16px;font-weight:400;opacity:.85}
+.col ul{padding:0}.col li{list-style:none;font-size:19px;padding:9px 14px;border-bottom:1px solid var(--line);line-height:1.3}.col li b{color:var(--acc)}
+.gm{font-size:18px;fill:var(--mut)}.gl{font-size:21px;fill:var(--fg)}.gx{stroke:var(--line);stroke-width:1}.gb{fill:var(--pri)}.ga{fill:var(--acc)}
+.sec{justify-content:center;padding:0 100px}.sec .num{font-size:170px;font-weight:800;color:var(--acc);line-height:1}
+.sec h1{border:0;padding:0;font-size:64px;margin:8px 0 16px}.sec p{font-size:30px;color:var(--mut)}
+.cov{justify-content:center;padding:0 90px}.eyebrow{font-size:24px;color:var(--acc);font-weight:700;letter-spacing:.15em}
+.cov h1{font-size:84px;border:0;padding:0;margin:14px 0 18px}.sub{font-size:32px;color:var(--mut);max-width:900px;line-height:1.45}
+.chips{display:flex;gap:12px;margin:38px 0 26px}.chips span{background:var(--pri);color:#fff;padding:12px 18px;border-radius:10px;font-size:22px;font-weight:700}
+.meta{font-size:22px;color:var(--mut)}
+.nv{position:fixed;top:50%;width:48px;height:96px;margin-top:-48px;border:0;border-radius:10px;background:rgba(18,48,107,.45);color:#fff;font-size:30px;cursor:pointer;opacity:.35;z-index:5}
+.nv:hover{opacity:.95}#prev{left:6px}#next{right:6px}
+.ov{position:fixed;inset:0;background:rgba(5,12,30,.94);display:none;overflow:auto;padding:30px;z-index:9}.ov.show{display:block}
+.tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.tb{position:relative;aspect-ratio:16/9;border:3px solid transparent;border-radius:8px;overflow:hidden;cursor:pointer;background:var(--bg)}.tb.cur{border-color:var(--acc)}
+.tb .slide{opacity:1;visibility:visible;transition:none;width:1280px;height:720px;transform-origin:0 0;pointer-events:none}
+.gt{position:fixed;left:50%;top:40%;transform:translateX(-50%);background:var(--bg);color:var(--fg);border:2px solid var(--acc);padding:18px 26px;border-radius:12px;font-size:24px;display:none;z-index:10}.gt.show{display:block}
+.gt input{width:100px;font-size:28px;padding:4px 8px;margin:0 8px;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:6px}
+@page{size:1280px 720px;margin:0}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html,body{overflow:visible;height:auto}#stage{position:static;transform:none!important;height:auto}
+.slide{position:relative;opacity:1!important;visibility:visible!important;transition:none;break-after:page}
+.nv,.ov,.gt{display:none!important}}
+</style></head>
+<body>
+<div id="stage"></div>
+<button class="nv" id="prev" aria-label="上一頁">‹</button><button class="nv" id="next" aria-label="下一頁">›</button>
+<div class="ov" id="ov"></div>
+<div class="gt" id="gt">跳至頁碼<input id="gi" type="number" min="1"> Enter</div>
+<script>
+/* ===== 內容資料:只需修改這裡 ===== */
+const CH=["背景與目標","現況分析","風險與發現","改善計畫","時程與資源","結論與決議事項"];
+const H='<span class="tag">高</span>',M='<span class="tag m">中</span>';
+const SLIDES=[
+{t:"cover",ch:1,eyebrow:"資安主管報告",title:"資安實質風險管理",sub:"以 NIST CSF IPDRR 重新對齊 2017 年起的安全架構，並驗證實際落實程度",chips:["Identify 識別","Protect 保護","Detect 偵測","Respond 回應","Recover 復原"],meta:"對象：資安主管　｜　2026/11/15"},
+{t:"section",ch:1,title:"背景與目標",desc:"為何現在必須重新盤點安全架構"},
+{t:"list",ch:1,title:"目標：把存在高階主管心中的架構，轉為可驗證、可傳承的作業",items:[
+["背景：2017 年重建安全架構","由資安公司協助建立，至今近 10 年"],
+["問題：架構與安控未文件化","具體內容分散在高階主管心中"],
+["目標一：重新對齊","對齊資安架構的需求與設計"],
+["目標二：具體驗證","以實際產出確認落實程度"],
+["目標三：持續優化","建立可循環的稽核與改善作業"]]},
+{t:"kpi",ch:1,title:"範圍：5 大功能、19 個控制領域，每項皆有明確產出",cards:[["5","IPDRR 功能","識別／保護／偵測／回應／復原"],["19","控制領域","涵蓋資產到備份還原"],["19","對應產出","清冊、報告、紀錄皆可稽核"],["~10 年","距 2017 年重建","環境已大幅變動"]],note:"以「實質風險」為導向：每項控制都要能被驗證，而不只是有文件"},
+{t:"section",ch:2,title:"現況分析",desc:"安全部署自 2017 年重建後的狀態"},
+{t:"two",ch:2,title:"現況：2017 年建立的防護，今天已無法被完整說明",l:["2017 年",["資安公司協助重新建立安全架構","具體架構與安控由高階主管掌握","未保存架構與安控文件"]],r:["今日",["環境已持續變動近 10 年","許多新系統陸續納入","無法對照原設計檢視落實程度"]]},
+{t:"list",ch:2,title:"現況盲點：知識單點集中，傳承與稽核都缺乏依據",items:[
+["知識集中","具體架構與安控分散在高階主管心中"],
+["無文件基線","沒有可對照的設計與組態基準"],
+["變動未反映","新增系統是否納入控管尚不明"],
+["稽核困難","審查缺少可引用的證據與紀錄"],
+["人員異動風險","關鍵人員異動，知識即可能流失"]]},
+{t:"section",ch:3,title:"風險與發現",desc:"不知道防護到哪裡，本身就是風險"},
+{t:"kpi",ch:3,title:"最大的風險不是某個漏洞，而是「不知道自己防護到哪裡」",cards:[["~10 年","未重新對齊","架構與實際落實程度不明"],["? 份","保存的架構文件","無可對照的基線"],["?","新增系統納管狀況","待盤點確認"],["少數","知識持有人","集中於高階主管"]],note:"以上為已知事實與待驗證項目，具體數據將於盤點後補上"},
+{t:"table",ch:3,title:"四項關鍵風險，皆源自文件缺失與環境變動",head:["風險","成因","潛在影響","優先級"],rows:[
+["資產與帳號不明","無清冊；新系統與帳號未盤點","非授權設備、幽靈與特權帳號失控",H],
+["安控落實度不明","無基準可比對","防護缺口未被發現",H],
+["偵測與回應涵蓋未知","日誌與告警範圍無從確認","事件延遲發現、處置缺乏依據",H],
+["復原能力未驗證","近 10 年未重新檢視","事件後無法如期復原",M]],note:"※ 優先級為初步判斷，待盤點與驗證後修正"},
+{t:"section",ch:4,title:"改善計畫",desc:"對齊、驗證、持續優化"},
+{t:"list",ch:4,title:"改善路徑：盤點還原、重新對齊、具體驗證、持續優化",items:[
+["盤點還原","高階主管提供歷史資料與訪談，萃取既有架構與安控並文件化"],
+["重新對齊","以 IPDRR 逐項定義需求、基準與設計（1.1–1.3）"],
+["具體驗證","弱掃、滲透、紅隊與組態稽核驗證落實（1.4、2.4）"],
+["持續優化","缺口追蹤、定期稽核、演練與更新"]]},
+{t:"grid",ch:4,title:"19 個控制領域依 IPDRR 逐項對齊，每項都有明確產出",cols:[
+["Identify 識別",[["1.1","資產盤點"],["1.2","安全組態基準"],["1.3","風險評估"],["1.4","弱點評估"]]],
+["Protect 保護",[["2.1","網路安全"],["2.2","帳號身分 IAM/PAM"],["2.3","組態加固與修補"],["2.4","安全組態稽核"],["2.5","SSDLC"],["2.6","資料安全"],["2.7","資安意識培訓"]]],
+["Detect 偵測",[["3.1","流量異常監控"],["3.2","帳號異常行為"],["3.3","端點與偏移監控"],["3.4","SIEM 與 SOC"],["3.5","威脅情資"]]],
+["Respond 回應",[["4.1","事件通報與處置"],["4.2","事件調查"]]],
+["Recover 復原",[["5.1","備份與組態還原"]]]],note:"從 Identify 開始：看不見的資產，無法保護、偵測或復原"},
+{t:"two",ch:4,title:"驗證分兩面：設計是否正確、落實是否到位",l:["設計面（對齊）",["資產清冊、拓樸與權限清冊","安全規格書與黃金映像規範","風險清單與改善建議","威脅建模與架構審查"]],r:["落實面（驗證）",["弱掃報告與 PoC 驗證","紅隊演練找出防禦盲點","組態差異報告與稽核","偵測、回應、復原演練"]]},
+{t:"list",ch:4,title:"持續優化：產出、稽核、追蹤、演練，形成閉環",items:[
+["產出","清冊、報告與處置紀錄，作為可稽核證據"],
+["稽核","定期比對基準，確認組態未偏移"],
+["追蹤","以加固率、修補紀錄、合規率追蹤改善"],
+["演練","社交工程、事件 SOP 與災難復原演練"]]},
+{t:"section",ch:5,title:"時程與資源",desc:"建議分階段推進，依盤點結果調整"},
+{t:"gantt",ch:5,title:"建議 12 個月完成對齊與驗證，並轉入常態優化",rows:[["既有文件知識萃取",1,2],["資產盤點與拓樸",1,4],["基準與風險評估",3,5],["弱掃／滲測／紅隊",4,7,1],["防護與偵測補強",5,10],["回應與復原演練",8,11],["文件化與持續優化",10,12]],note:"※ 時程為規劃假設（M1 起算），實際依盤點結果與資源調整"},
+{t:"kpi",ch:5,s:1,title:"資源需求：以內部團隊為主，視驗證範圍補強外部能量",cards:[["資安團隊","核心執行","盤點、基準、稽核與追蹤"],["高階主管","知識來源","現有文件及訪談與架構確認"],["IT／系統擁有者","配合盤點","提供系統、帳號與組態資料"],["外部紅隊","選配","滲透與紅隊演練"]],note:"具體人天與預算，待盤點範圍確認後提出"},
+{t:"section",ch:6,title:"結論與決議事項",desc:"需要主管支持的事項"},
+{t:"list",ch:6,c:1,title:"結論：先看清楚，再驗證，請核准以下四項決議",items:[
+["核准以 NIST IPDRR 作為重新對齊的框架","19 個控制領域與對應產出"],
+["安排高階主管訪談時段","萃取 2017 年架構與安控設計"],
+["核准盤點與弱點驗證範圍","含是否引入外部紅隊"],
+["建立定期回報與稽核節奏","追蹤改善進度與關鍵指標"]]}
+];
+/* ===== 版型 ===== */
+const R={
+cover:s=>`<div class="body cov"><div class="eyebrow">${s.eyebrow}</div><h1>${s.title}</h1><div class="sub">${s.sub}</div><div class="chips">${s.chips.map(c=>`<span>${c}</span>`).join('')}</div><div class="meta">${s.meta}</div></div>`,
+section:s=>`<div class="body sec"><div class="num">0${s.ch}</div><h1>${s.title}</h1><p>${s.desc}</p></div>`,
+list:s=>`<div class="body"><h1>${s.title}</h1>${s.items.map((x,i)=>`<div class="li${s.c?' dec':''}"><span class="n">${i+1}</span><div><h3>${x[0]}</h3><p>${x[1]}</p></div></div>`).join('')}</div>`,
+two:s=>`<div class="body"><h1>${s.title}</h1><div class="two">${[s.l,s.r].map((p,i)=>`<div class="pane${i?' r':''}"><h2>${p[0]}</h2><ul>${p[1].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div></div>`,
+kpi:s=>`<div class="body"><h1>${s.title}</h1><div class="cards">${s.cards.map(c=>`<div class="card${s.s?' s':''}"><div class="v">${c[0]}</div><div class="l">${c[1]}</div><div class="d">${c[2]}</div></div>`).join('')}</div>${s.note?`<div class="note">${s.note}</div>`:''}</div>`,
+table:s=>`<div class="body"><h1>${s.title}</h1><table><tr>${s.head.map(h=>`<th>${h}</th>`).join('')}</tr>${s.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table>${s.note?`<div class="note">${s.note}</div>`:''}</div>`,
+grid:s=>`<div class="body"><h1>${s.title}</h1><div class="g5">${s.cols.map(c=>`<div class="col"><h3>${c[0]}<small>${c[1].length} 項</small></h3><ul>${c[1].map(x=>`<li><b>${x[0]}</b> ${x[1]}</li>`).join('')}</ul></div>`).join('')}</div>${s.note?`<div class="note">${s.note}</div>`:''}</div>`,
+gantt:s=>{const L=300,W=1152,mw=(W-L)/12,rh=50,hh=38,n=s.rows.length,E=hh+rh*n;
+let o=`<svg viewBox="0 0 ${W} ${E}" width="100%" role="img">`;
+for(let m=0;m<=12;m++)o+=`<line class="gx" x1="${L+mw*m}" x2="${L+mw*m}" y1="${hh}" y2="${E}"/>`+(m<12?`<text class="gm" x="${L+mw*m+mw/2}" y="26" text-anchor="middle">M${m+1}</text>`:'');
+s.rows.forEach((r,i)=>{const y=hh+rh*i;o+=`<line class="gx" x1="0" x2="${W}" y1="${y}" y2="${y}"/><text class="gl" x="0" y="${y+32}">${r[0]}</text><rect class="${r[3]?'ga':'gb'}" x="${L+mw*(r[1]-1)+3}" y="${y+9}" width="${mw*(r[2]-r[1]+1)-6}" height="32" rx="6"/>`});
+o+=`<line class="gx" x1="0" x2="${W}" y1="${E}" y2="${E}"/></svg>`;
+return `<div class="body"><h1>${s.title}</h1>${o}${s.note?`<div class="note">${s.note}</div>`:''}</div>`}
+};
+/* ===== 引擎 ===== */
+const N=SLIDES.length,$=s=>document.querySelector(s),stage=$('#stage'),ov=$('#ov'),gt=$('#gt'),gi=$('#gi');
+stage.innerHTML=SLIDES.map((s,i)=>`<section class="slide" data-i="${i}"><nav class="top">${CH.map((c,k)=>{const n=k+1;return `<button data-ch="${n}" class="${n<s.ch?'d':n==s.ch?'c':''}">${n<s.ch?'✓ ':n+' '}${c}</button>`}).join('')}</nav>${R[s.t](s)}<footer><div class="bar"><i style="width:${(i+1)/N*100}%"></i></div><span>${i+1} / ${N}</span></footer></section>`).join('');
+const els=[...stage.children];let cur=0;
+const firstOf=k=>Math.max(0,SLIDES.findIndex(s=>s.t==='section'&&s.ch===k));
+const fromHash=()=>{const n=parseInt(location.hash.slice(1));return n>=1&&n<=N?n-1:0};
+function go(i,fromH){i=Math.max(0,Math.min(N-1,i));cur=i;els.forEach((e,k)=>e.classList.toggle('on',k===i));
+if(!fromH){try{history.replaceState(null,'','#'+(i+1))}catch(_){location.hash=i+1}}}
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`translate(${(innerWidth-1280*s)/2}px,${(innerHeight-720*s)/2}px) scale(${s})`}
+function openOv(){ov.innerHTML='<div class="tg"></div>';const g=ov.firstChild;
+els.forEach((el,i)=>{const t=document.createElement('div');t.className='tb'+(i===cur?' cur':'');t.dataset.i=i;const c=el.cloneNode(true);c.classList.remove('on');t.appendChild(c);g.appendChild(t)});
+ov.classList.add('show');const w=g.firstChild.clientWidth;g.querySelectorAll('.tb>.slide').forEach(c=>c.style.transform=`scale(${w/1280})`);
+const cu=g.children[cur];if(cu)cu.scrollIntoView({block:'center'})}
+const closeOv=()=>ov.classList.remove('show');
+function openGt(){gt.classList.add('show');gi.value='';gi.max=N;setTimeout(()=>gi.focus(),0)}
+function closeGt(){gt.classList.remove('show');gi.blur()}
+const fs=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();
+const theme=()=>{const d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'};
+ov.addEventListener('click',e=>{const t=e.target.closest('.tb');if(t)go(+t.dataset.i);closeOv()});
+stage.addEventListener('click',e=>{const b=e.target.closest('[data-ch]');if(b){go(firstOf(+b.dataset.ch));b.blur()}});
+$('#prev').onclick=e=>{go(cur-1);e.target.blur()};$('#next').onclick=e=>{go(cur+1);e.target.blur()};
+addEventListener('keydown',e=>{
+if(e.target===gi){if(e.key==='Enter'){const n=parseInt(gi.value);closeGt();if(n)go(n-1)}else if(e.key==='Escape')closeGt();return}
+if(e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key;
+if(ov.classList.contains('show')){if(k==='Escape'||k==='o'||k==='O')closeOv();return}
+if(k==='ArrowRight'||k===' '||k==='PageDown'){go(cur+1);e.preventDefault()}
+else if(k==='ArrowLeft'||k==='PageUp'){go(cur-1);e.preventDefault()}
+else if(k==='Home'){go(0);e.preventDefault()}
+else if(k==='End'){go(N-1);e.preventDefault()}
+else if(k==='g'||k==='G'){openGt();e.preventDefault()}
+else if(k==='f'||k==='F')fs();
+else if(k==='o'||k==='O')openOv();
+else if(k==='t'||k==='T')theme();
+else if(k==='Escape')closeGt()});
+let tx=0,ty=0;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',e=>{if(ov.classList.contains('show'))return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)go(cur+(dx<0?1:-1))},{passive:true});
+addEventListener('hashchange',()=>go(fromHash(),true));
+addEventListener('resize',fit);
+fit();go(fromHash());
+</script>
+</body></html>
